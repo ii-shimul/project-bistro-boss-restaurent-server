@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-require('dotenv').config()
+require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -22,6 +22,14 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
+    const menuCollection = client.db("bistroBossDB").collection("menu");
+    const reviewsCollection = client.db("bistroBossDB").collection("reviews");
+
+    app.get("/menu", async (req, res) => {
+      const result = await menuCollection.find().toArray();
+      res.send(result);
+    });
+
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
